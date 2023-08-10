@@ -17,14 +17,14 @@ enum Usertype {
 
 model User {
   id          Int      @id @default(autoincrement())
-  email       String   @unique
-  name        String
-  password    String
-  usertype    Usertype @default(USER)
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
+  email       String   @unique @map("email")
+  name        String   @map("name")
+  password    String   @map("password")
+  userType    Usertype @default(USER) @map("user_type")
+  dateCreated DateTime @default(now()) @map("date_created")
+  dateUpdated DateTime @updatedAt @map("date_updated")
 
-  userProfile Userprofile @relation(fields: [id], references: [userId])
+  userProfile Userprofile ?
 
   toDo          Todo[]
   userprofileId Int
@@ -34,15 +34,15 @@ model User {
 
 model Userprofile {
   id          Int      @id @default(autoincrement())
-  userId      Int      @unique
-  firstName   String
-  lastName    String
+  userId      Int      @unique @map("user_Id")
+  firstName   String   @map("first_name")
+  lastName    String   @map("last_name")
   address     String
   password    String
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
+  dateCreated DateTime @default(now()) @map("date_created")
+  dateUpdated DateTime @updatedAt @map("date_updated")
 
-  User        User[]
+  user User  @relation(fields: [userId], references: [id])
 
   @@unique([firstName, lastName])
   @@map("user_profile")
@@ -51,14 +51,12 @@ model Userprofile {
 model Todo {
   id          Int      @id @default(autoincrement())
   name        String
-  todoId      Int
+  todoId      Int      @map("to_do_id")
   done        Boolean  @default(false)
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
+  dateCreated DateTime @default(now()) @map("date_created")
+  dateUpdated DateTime @updatedAt @map("date_updated")
 
   user User @relation(fields: [todoId], references: [id])
 
   @@map("To_do")
 }
-
-

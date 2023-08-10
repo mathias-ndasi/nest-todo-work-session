@@ -17,8 +17,8 @@ enum Usertype {
 
 model User {
   id          Int      @id @default(autoincrement())
-  email       String   @unique @map("email")
-  name        String   @map("name")
+  email       String   @unique @map("email") 
+  username        String   @map("username") @unique
   password    String   @map("password")
   userType    Usertype @default(USER) @map("user_type")
   dateCreated DateTime @default(now()) @map("date_created")
@@ -29,7 +29,7 @@ model User {
   todo          Todo[]
   userprofileId Int
 
-  @@map("User")
+  @@map("user")
 }
 
 model Userprofile {
@@ -44,7 +44,6 @@ model Userprofile {
 
   user User  @relation(fields: [userId], references: [id])
 
-  @@unique([firstName, lastName])
   @@map("user_profile")
 }
 
@@ -58,5 +57,5 @@ model Todo {
 
   user User @relation(fields: [todoId], references: [id])
 
-  @@map("To_do")
+  @@map("todo")
 }

@@ -10,9 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Usertype {
-  USER
-  ADMIN
+enum UserType {
+  client
+  admin
 }
 
 model User {
@@ -20,14 +20,14 @@ model User {
   email       String   @unique @map("email") 
   username        String   @map("username") @unique
   password    String   @map("password")
-  userType    Usertype @default(USER) @map("user_type")
+  userType    UserType @default(client) @map("user_type")
   dateCreated DateTime @default(now()) @map("date_created")
   dateUpdated DateTime @updatedAt @map("date_updated")
 
   userProfile Userprofile ?
 
   todo          Todo[]
-  userprofileId Int
+  userProfileId Int
 
   @@map("user")
 }
@@ -38,7 +38,6 @@ model Userprofile {
   firstName   String   @map("first_name")
   lastName    String   @map("last_name")
   address     String
-  password    String
   dateCreated DateTime @default(now()) @map("date_created")
   dateUpdated DateTime @updatedAt @map("date_updated")
 
@@ -50,12 +49,11 @@ model Userprofile {
 model Todo {
   id          Int      @id @default(autoincrement())
   name        String
-  todoId      Int      @map("to_do_id")
   done        Boolean  @default(false)
   dateCreated DateTime @default(now()) @map("date_created")
   dateUpdated DateTime @updatedAt @map("date_updated")
 
-  user User @relation(fields: [todoId], references: [id])
+  user User @relation(fields: [id], references: [id])
 
   @@map("todo")
 }

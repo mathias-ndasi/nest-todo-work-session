@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -13,7 +13,17 @@ export class UserService {
   }
 
   getAllUser() {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      include: {
+        userProfile: {
+          select: {
+            firstName: true,
+            lastName: true,
+            address: true
+          }
+        }
+      }
+    });
   }
 
   getSingleUser(id: number) {
@@ -29,5 +39,20 @@ export class UserService {
 
   remove(id: number) {
     return this.prisma.user.delete({where: {id}});
+  }
+
+  async createUser(data: User): Promise<any>{
+    const existing = await this.prisma.user.findUnique({
+      where: {
+        username: data.username,
+      }
+    })
+
+    if (existing){
+      throw new ConflictException('Username Already exists')
+    }
+    return this.prisma.user.create({
+      data
+    })
   }
 }

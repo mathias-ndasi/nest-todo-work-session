@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "src/prisma.service";
 import { UserService } from "src/user/user.service";
-import { loginDto } from "./dto/login-user.dto";
+import { LoginDto } from "./dto/login-user.dto";
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { RegisterusersDto } from "./dto/register-user.dto";
@@ -15,7 +15,7 @@ export class AuthService{
         private jwtService: JwtService, 
         private readonly userService:UserService){}
 
-        async login(loginDto: loginDto): Promise<any>{
+        async login(loginDto: LoginDto): Promise<any>{
             const {username, password} = loginDto;
 
             const users = await this.prismaService.user.findUnique({

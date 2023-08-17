@@ -1,7 +1,7 @@
 import { IsString, Length } from "class-validator";
 
 
-export class loginDto{
+export class LoginDto{
     @IsString()
     @Length(5,10)
     username: string;

@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TodoModule } from './todo/todo.module';
-import { AuthModule } from 'authentication/auth.module';
+import { AuthModule } from 'src/authentication/auth.module';
 
 @Module({
   imports: [ UserModule, TodoModule, AuthModule],

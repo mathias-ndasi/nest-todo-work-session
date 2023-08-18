@@ -10,13 +10,7 @@ export class UserRepository {
         return new Promise(async (resolve, reject) => {
             try {
                 const user = await prisma.$transaction(async (prismaClient: PrismaClient) => {
-                    const userProfile = await prismaClient.userprofile.create({
-                        data: {
-                            firstName: params.firstName,
-                            lastName: params.lastName,
-                            address: params.address,
-                        }
-                    })
+                    
                 })
             } catch (error) {
                 return reject(error)

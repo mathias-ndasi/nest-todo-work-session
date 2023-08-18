@@ -40,7 +40,14 @@ export class UserValidator {
 
     async validateGetUserParams(params: GetUserParams): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
-            try {                
+            try {       
+                
+                //joi Validation
+                const joiSchema: Joi.ObjectSchema<GetUserParams> = Joi.object({
+                    email: Joi.string().required().trim().strip().email().label('The Email'),
+                    username: Joi.string().required().trim().label('The username'),
+                    userType: Joi.string().valid(...Object.keys(UserType)).required().label('The user type')
+                })
                 return resolve(Response.withoutData(HttpStatus.OK, 'OK'));
             } catch (error) {
                 return reject(`An error occurred during param validation: ${JSON.stringify(params)}`);
@@ -50,9 +57,19 @@ export class UserValidator {
 
     async validateUpdateUserDTO(params: UpdateUserDTO): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
-            try {                
+            try {   
+                
+                //joi Validation
+                const joiSchema: Joi.ObjectSchema<UpdateUserDTO> = Joi.object({
+                    email: Joi.string().trim().strip().email().optional().label('The email'),
+                    username: Joi.string().trim().optional().label('The username'),
+                    firstName: Joi.string().trim().optional().label('The user first name'),
+                    lastName: Joi.string().trim().optional().label('The user last name'),
+                    address: Joi.string().trim().optional().label('Te user address'),
+                    userType: Joi.string().valid(...Object.keys(UserType)).optional().label('The user type')
+                })
                 return resolve(Response.withoutData(HttpStatus.OK, 'OK'));
-            } catch (error) {
+            } catch (error) {'joi'
                 return reject(`An error occurred during param validation: ${JSON.stringify(params)}`);
             }
         })

@@ -212,7 +212,7 @@ export class UserValidator {
             Response.withoutData(HttpStatus.NOT_FOUND, 'User not Found'),
           );
         }
-        console.log('error .......5')
+      
         return resolve(Response.withoutData(HttpStatus.OK, 'OK', { user }));
       } catch (error) {
         return reject(

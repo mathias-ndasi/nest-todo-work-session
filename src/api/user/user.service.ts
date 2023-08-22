@@ -106,18 +106,18 @@ export class UserService {
         }
     }
 
-     async deleteUser(userId: number): Promise<ResponseWithoutData>{
-         try {
-             const deleteUser = await this.userValidator.validateDeleteUserParams(userId);
-             if(deleteUser.status!== HttpStatus.OK) return deleteUser;
+        async deleteUser(userId: number): Promise<ResponseWithoutData>{
+            try {
+                const deleteUser = await this.userValidator.validateDeleteUserParams(userId);
+                if(deleteUser.status!== HttpStatus.OK) return deleteUser;
 
-             let user = deleteUser.data.user;
-              user = await this.userRepository.deleteUser(userId)
+                let user = deleteUser.data.user;
+                user = await this.userRepository.deleteUser(userId)
 
-             return Response.withoutData(HttpStatus.NO_CONTENT, 'User deleted successfully')
-         } catch (error) {
-            logger.error(`An error occured while loading the user ${error}`);
-            return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
-      }
-     }
-}
+                return Response.withoutData(HttpStatus.NO_CONTENT, 'User deleted successfully')
+            } catch (error) {
+                logger.error(`An error occured while deleting the user ${error}`);
+                return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
+        }
+        }
+    }

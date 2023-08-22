@@ -6,7 +6,13 @@ export class SaveTodoParams{
 }
 
 export class TodoFilterParams{
+    id?: number;
     name?: string;
+}
+
+export class TodoFilterParamsWithLimits extends TodoFilterParams {
+    limit: number;
+    offset: number;
 }
 
 export class UpdateTodoParams{

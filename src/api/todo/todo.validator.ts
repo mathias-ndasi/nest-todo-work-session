@@ -31,12 +31,6 @@ export class TodoValidator{
 
             if (validateTodo) return resolve(validateTodo);
 
-            /*if (!Object.keys(Todo).includes(dto.name.trim())) {
-            return resolve(
-                Response.withoutData(HttpStatus.BAD_REQUEST, 'Invalid user type'),
-            );
-            }*/
-
             let existingTodo = await this.todoRepository.retrieveTodo({
             name: dto.name
             });

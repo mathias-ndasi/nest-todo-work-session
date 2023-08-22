@@ -11,6 +11,7 @@ export class SaveUserParams {
 }
 
 export class UserFilterParams {
+    id?: number;
     username?: string;
     email?: string;
     userType?: UserType;

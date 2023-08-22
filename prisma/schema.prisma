@@ -28,7 +28,6 @@ model User {
   dateUpdated DateTime @updatedAt @map("date_updated")
 
   todo          Todo[]
-  userProfileId Int
 
   @@map("user")
 }

@@ -4,8 +4,8 @@ export class CreateTodoDto{
 }
 
 export class GetTodoParams{
-    name: string;
-    done: boolean;
+    name?: string;
+    done?: boolean;
 }
 
 export class UpdateTodoDto{

@@ -1,3 +1,5 @@
+import { UserType } from "@prisma/client";
+
 export class CreateUserDTO {
     email: string;
     username: string;
@@ -8,10 +10,12 @@ export class CreateUserDTO {
     address: string;
 }
 
-export class GetUserParams {
-    email: string;
-    username: string;
-    userType: string;
+export class GetUsersParams {
+    email?: string;
+    username?: string;
+    userType?: UserType;
+    limit?: number;
+    offset?: number;
 }
 
 export class UpdateUserDTO {
@@ -20,5 +24,7 @@ export class UpdateUserDTO {
     lastName?: string;
     address?: string;
     username?: string;
-    userType?: string;
+    userType?: UserType;
+    password?: string;
 }
+

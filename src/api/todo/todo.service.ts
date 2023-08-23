@@ -64,7 +64,7 @@ export class TodoService {
         : filterParams;
 
       const getTodos = await this.todoRepository.retrieveTodos(filterParams);
-      return Response.withData(HttpStatus.ACCEPTED, 'All todos', getTodos);
+      return Response.withData(HttpStatus.OK, 'All todos', getTodos);
     } catch (error) {
       logger.error(`An error occured when getting all todos: ${error}`);
       return Response.withoutData(
@@ -115,7 +115,7 @@ export class TodoService {
         done: dto.done ? dto.done : todo.done,
       });
 
-      return Response.withData(HttpStatus.FOUND, 'Todo with given id', todo);
+      return Response.withData(HttpStatus.OK, 'Todo with given id', todo);
     } catch (error) {
       logger.error(`An error occured while updating the todo: ${error}`);
       return Response.withoutData(

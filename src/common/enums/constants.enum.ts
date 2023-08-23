@@ -1,6 +1,6 @@
 export enum Constants {
   SERVER_ERROR = 'An error occurred please contact admin for assistance.',
-  LIMIT = 4,
+  LIMIT = 20,
   OFFSET = 0,
 }
 

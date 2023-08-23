@@ -5,18 +5,23 @@ import { Response, ResponseWithData, ResponseWithoutData } from './../../common/
 import { GetUsersParams } from "../user/dtos/user.dto";
 import { CreateTodoDto, GetTodoParams, UpdateTodoDto } from "./dtos/todo.dto";
 import { TodoRepository } from "src/repositories/todo.repository";
+import { UserRepository } from "src/repositories/user.repository";
 import * as Joi from 'joi';
 import { JoiValidator } from "src/utils/joi.validation.util";
 import { User } from "../user/entities/user.entity";
 import { Todo } from "./entities/todo.entity";
 import { UserType } from "src/common/enums/constants.enum";
+import { response } from "express";
 
 
 @Injectable()
 export class TodoValidator{
-    constructor(private readonly todoRepository: TodoRepository) {}
+    constructor(
+        private readonly todoRepository: TodoRepository,
+        private readonly userRepository: UserRepository
+    ) { }
 
-    async ValidateCreateTodoDto(dto: CreateTodoDto): Promise<ResponseWithoutData> {
+    async ValidateCreateTodoDto(dto: CreateTodoDto, ): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
             try {
                 //Joi validation
@@ -33,13 +38,20 @@ export class TodoValidator{
             
                 if (validateTodo) return resolve(validateTodo);
                 
+                let user = await this.userRepository.retrieveUser({
+                    id: dto.userId
+                })
+
+                if (!user) {
+                    return resolve(Response.withoutData(HttpStatus.NOT_FOUND, 'User do not exist' ))
+                }
+
                 let todo = await this.todoRepository.retrieveTodo({
                     name: dto.name,
                 });
-
         
                 if (todo) {
-                    return resolve(Response.withoutData(HttpStatus.OK, 'User exist'))
+                    return resolve(Response.withoutData(HttpStatus.OK, 'Todo exist'))
                 }
             
                 todo = await this.todoRepository.retrieveTodo({
@@ -88,6 +100,7 @@ export class TodoValidator{
             try {
                 const joiSchema = Joi.object({
                     todoId: Joi.number().positive().integer().min(1).label('The todo ID'),
+
                 });
                 const validateGetTodo = await JoiValidator.validate({
                     joiSchema: joiSchema,

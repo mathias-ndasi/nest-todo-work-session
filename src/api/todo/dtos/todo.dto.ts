@@ -4,7 +4,7 @@ export class CreateTodoDto{
     done: boolean;
 }
 
-export class GetTodoParams{
+export class    GetTodoParams{
     name?: string;
     done?: boolean;
     limit?: number;

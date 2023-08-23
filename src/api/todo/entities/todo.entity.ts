@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "../../user/entities/user.entity";
 
 
 export class Todo{
@@ -7,4 +7,5 @@ export class Todo{
     done: boolean;
     dateCreated: Date;
     dateUpdated: Date;
+    user: User;
 }

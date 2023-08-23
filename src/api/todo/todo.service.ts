@@ -10,7 +10,7 @@ import { Todo } from "./entities/todo.entity";
 import { constants } from "buffer";
 
 @Injectable()
-export class TodoServise{
+export class TodoService{
     constructor (
         private readonly todoValidator: TodoValidator,
         private readonly todoRepository: TodoRepository

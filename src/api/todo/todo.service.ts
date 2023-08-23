@@ -112,7 +112,7 @@ export class TodoServise {
 
       let todo = validateTodoUpdate.data.todo as Todo;
 
-      todo = await this.todoRepository.UpdateTodo(todoId, {
+      todo = await this.todoRepository.updateTodo(todoId, {
         name: dto.name ? dto.name : todo.name,
         done: dto.done ? dto.done : todo.done,
       });

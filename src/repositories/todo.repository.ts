@@ -7,9 +7,10 @@ import {
   TodoFilterParamsWithLimits,
   UpdateTodoParams,
 } from './entities/todo.entity';
+import { ITodoRepository } from './interfaces/todo.interface';
 
 @Injectable()
-export class TodoRepository {
+export class TodoRepository implements ITodoRepository {
   saveTodo(params: SaveTodoParams): Promise<Todo> {
     return new Promise(async (resolve, reject) => {
       try {
@@ -53,7 +54,7 @@ export class TodoRepository {
     });
   }
 
-  UpdateTodo(todoId: number, params: UpdateTodoParams): Promise<Todo | null> {
+  updateTodo(todoId: number, params: UpdateTodoParams): Promise<Todo | null> {
     return new Promise(async (resolve, reject) => {
       try {
         const todo = await prisma.todo.update({

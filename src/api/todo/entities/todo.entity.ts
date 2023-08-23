@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "../../.././api/user/entities/user.entity";
 
 
 export class Todo{

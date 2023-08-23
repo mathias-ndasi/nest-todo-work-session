@@ -21,6 +21,7 @@ export class TodoServise{
                 if (validateTodo.status !== HttpStatus.OK) return validateTodo;
 
                 const todo = await this.todoRepository.saveTodo({
+                    userId: dto.userId,
                     name: dto.name,
                     done: dto.done,
                 });

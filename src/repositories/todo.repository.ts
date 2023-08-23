@@ -1,8 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaClient, Todo } from "@prisma/client";
-import { promises } from "dns";
-import { resolve } from "path";
-import prisma from "src/common/prisma";
+import { Todo } from "./../api/todo/entities/todo.entity";
+import prisma from "./../common/prisma";
 import { SaveTodoParams, TodoFilterParams, TodoFilterParamsWithLimits, UpdateTodoParams } from "./entities/todo.entity";
 
 
@@ -13,7 +11,8 @@ export class TodoRepository{
             try {
                 const todo = await prisma.todo.create({
                     data: params,
-                })
+                });
+
                 return resolve(todo)
             } catch (error) {
                 return reject(error)

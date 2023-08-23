@@ -1,4 +1,5 @@
 export class CreateTodoDto{
+    userId: number;
     name: string;
     done: boolean;
 }

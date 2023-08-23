@@ -27,19 +27,20 @@ model User {
   dateCreated DateTime @default(now()) @map("date_created")
   dateUpdated DateTime @updatedAt @map("date_updated")
 
-  todo          Todo[]
+  todo Todo[]
 
   @@map("user")
 }
 
 model Todo {
   id          Int      @id @default(autoincrement())
+  userId      Int
   name        String
   done        Boolean  @default(false)
   dateCreated DateTime @default(now()) @map("date_created")
   dateUpdated DateTime @updatedAt @map("date_updated")
 
-  user User @relation(fields: [id], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   @@map("todo")
 }

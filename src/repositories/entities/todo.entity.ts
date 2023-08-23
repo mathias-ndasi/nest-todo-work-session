@@ -1,6 +1,7 @@
 import { Todo } from "@prisma/client";
 
 export class SaveTodoParams{
+    userId: number;
     name: string;
     done: boolean;
 }

@@ -2,17 +2,18 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { rejects } from "assert";
 import { resolve } from "path";
 import { Response, ResponseWithData, ResponseWithoutData } from './../../common/response';
+import { GetUsersParams } from "../user/dtos/user.dto";
 import { CreateTodoDto, GetTodoParams, UpdateTodoDto } from "./dtos/todo.dto";
 import { TodoRepository } from "src/repositories/todo.repository";
 import * as Joi from 'joi';
 import { JoiValidator } from "src/utils/joi.validation.util";
 import { User } from "../user/entities/user.entity";
 import { Todo } from "./entities/todo.entity";
+import { UserType } from "src/common/enums/constants.enum";
 
 
 @Injectable()
 export class TodoValidator{
-    [x: string]: any;
     constructor(private readonly todoRepository: TodoRepository) {}
 
     async ValidateCreateTodoDto(dto: CreateTodoDto): Promise<ResponseWithoutData> {
@@ -20,39 +21,36 @@ export class TodoValidator{
             try {
                 //Joi validation
                 const joiSchema: Joi.ObjectSchema<CreateTodoDto> = Joi.object({
+                    userId: Joi.number().required().label("The user's id of the todo"),
                     name: Joi.string().strip(). required().label("user's To do"),
-                    done: Joi.boolean().strip().label("Is the to do done?"),
+                    done: Joi.boolean().strip().label("Is the to do done?")
                 });
-
+        
                 const validateTodo = await JoiValidator.validate({
                     joiSchema:joiSchema,
                     data: dto,
                 });
-
-            if (validateTodo) return resolve(validateTodo);
-
-            let existingTodo = await this.todoRepository.retrieveTodo({
-            name: dto.name
-            });
-    
-            if (existingTodo) {
-            return resolve(
-                Response.withoutData(
-                HttpStatus.BAD_REQUEST,
-                'User with this Todo already exists',
-                ),
-            );
-        }
-    
-            existingTodo = await this.todoRepository.retrieveTodo({
-                name: dto.name
-            });
-        
-            if (existingTodo){
-                return resolve( Response.withoutData(HttpStatus.BAD_REQUEST , 'Todo with this name already exist'))
-            }
-            return resolve(Response.withoutData(HttpStatus.OK, 'OK'));
             
+                if (validateTodo) return resolve(validateTodo);
+                
+                let todo = await this.todoRepository.retrieveTodo({
+                    name: dto.name,
+                });
+
+        
+                if (todo) {
+                    return resolve(Response.withoutData(HttpStatus.OK, 'User exist'))
+                }
+            
+                todo = await this.todoRepository.retrieveTodo({
+                    name: dto.name,
+                });
+        
+                if (todo){
+                    return resolve( Response.withoutData(HttpStatus.BAD_REQUEST , 'Todo with this name already exist'))
+                }
+                return resolve(Response.withoutData(HttpStatus.OK, 'OK'));
+        
             } catch (error) {
                 return reject(`An error occurred during param validation: ${JSON.stringify(dto)}`);
             }
@@ -120,7 +118,7 @@ export class TodoValidator{
                     name: Joi.string().optional().trim().strip().label('The todo name'),
                     done: Joi.boolean().optional().label('Is the todo done?'),
                 });
-    
+        
                 const validateTodo = await JoiValidator.validate({
                     joiSchema: joiSchema,
                     data: params

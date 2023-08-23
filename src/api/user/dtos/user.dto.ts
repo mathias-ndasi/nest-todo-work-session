@@ -1,4 +1,4 @@
-import { UserType } from "@prisma/client";
+import { UserType } from "../../../common/enums/constants.enum";
 
 export class CreateUserDTO {
     email: string;

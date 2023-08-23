@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res, Param, Put, Delete} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, Param, Put, Delete, Query} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO, GetUsersParams, UpdateUserDTO } from './dtos/user.dto';
 import { Response, query, response } from 'express';
@@ -19,7 +19,7 @@ export class UserController {
     }
 
     @Get()
-    async getUsers(@Param() queryParams: GetUsersParams, @Res() res: Response){
+    async getUsers(@Query() queryParams: GetUsersParams, @Res() res: Response){
     const {status, ...responseData} = await this.userService.findUsers(queryParams);
         return res.status(status).json(responseData);
     }

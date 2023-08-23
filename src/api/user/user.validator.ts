@@ -10,7 +10,6 @@ import { UpdateUserParams } from 'src/repositories/entities/user.entity';
 
 @Injectable()
 export class UserValidator {
-  [x: string]: any;
   constructor(private readonly userRepository: UserRepository) {}
 
   async validateCreateUserDTO(

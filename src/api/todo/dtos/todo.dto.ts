@@ -1,9 +1,10 @@
 export class CreateTodoDto{
+    userId: number;
     name: string;
     done: boolean;
 }
 
-export class GetTodoParams{
+export class    GetTodoParams{
     name?: string;
     done?: boolean;
     limit?: number;

@@ -17,17 +17,18 @@ enum UserType {
 
 model User {
   id          Int      @id @default(autoincrement())
-  email       String   @unique @map("email")
-  username    String   @unique @map("username")
-  password    String   @map("password")
+  email       String   @unique @map("email") 
+  username        String   @map("username") @unique
   firstName   String   @map("first_name")
   lastName    String   @map("last_name")
-  address     String   @map("address")
+  address     String
+  password    String   @map("password")
   userType    UserType @default(client) @map("user_type")
   dateCreated DateTime @default(now()) @map("date_created")
   dateUpdated DateTime @updatedAt @map("date_updated")
 
-  todo Todo[]
+  todo          Todo[]
+  userProfileId Int
 
   @@map("user")
 }

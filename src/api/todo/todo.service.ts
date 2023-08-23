@@ -21,8 +21,9 @@ export class TodoService{
                 if (validateTodo.status !== HttpStatus.OK) return validateTodo;
 
                 const todo = await this.todoRepository.saveTodo({
-                    name: dto.name,
-                    done: dto.done,
+                  name: dto.name,
+                  done: dto.done,
+                  userId: 0
                 });
 
                 return Response.withData(HttpStatus.CREATED, 'Todo created successfully', todo)
@@ -73,7 +74,7 @@ export class TodoService{
 
             let todo = validateTodoUpdate.data.todo as Todo;
         
-            todo = await this.todoRepository.UpdateTodo(todoId, {
+            todo = await this.todoRepository.updateTodo(todoId, {
                 name: dto.name? dto.name: todo.name,
                 done: dto.done? dto.done: todo.done,
             });

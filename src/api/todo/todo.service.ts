@@ -12,7 +12,7 @@ import { TodoRepository } from 'src/repositories/todo.repository';
 import { Todo } from './entities/todo.entity';
 
 @Injectable()
-export class TodoServise {
+export class TodoService {
   constructor(
     private readonly todoValidator: TodoValidator,
     private readonly todoRepository: TodoRepository,

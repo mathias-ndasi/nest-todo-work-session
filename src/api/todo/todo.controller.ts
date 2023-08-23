@@ -11,12 +11,12 @@ import {
   Query,
 } from '@nestjs/common';
 import { Response, query, response } from 'express';
-import { TodoServise } from './todo.service';
+import { TodoService } from './todo.service';
 import { CreateTodoDto, GetTodoParams, UpdateTodoDto } from './dtos/todo.dto';
 
 @Controller('todo')
 export class TodoController {
-  constructor(private readonly todoService: TodoServise) {}
+  constructor(private readonly todoService: TodoService) {}
 
   @Post()
   async createTodo(@Body() requestBody: CreateTodoDto, @Res() res: Response) {

@@ -9,9 +9,7 @@ import {
 } from './../../common/response';
 import { Constants } from 'src/common/enums/constants.enum';
 import { TodoRepository } from 'src/repositories/todo.repository';
-import { HTTP_CODE_METADATA } from '@nestjs/common/constants';
 import { Todo } from './entities/todo.entity';
-import { constants } from 'buffer';
 
 @Injectable()
 export class TodoServise {

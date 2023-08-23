@@ -1,10 +1,8 @@
-import { User } from "../../.././api/user/entities/user.entity";
-
-
-export class Todo{
-    id: number;
-    name: string;
-    done: boolean;
-    dateCreated: Date;
-    dateUpdated: Date;
+export class Todo {
+  id: number;
+  userId: number;
+  name: string;
+  done: boolean;
+  dateCreated: Date;
+  dateUpdated: Date;
 }

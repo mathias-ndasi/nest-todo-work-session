@@ -42,8 +42,8 @@ export class TodoValidator{
                 'User with this Todo already exists',
                 ),
             );
-        }
-    
+            }
+                
             existingTodo = await this.todoRepository.retrieveTodo({
                 name: dto.name
             });

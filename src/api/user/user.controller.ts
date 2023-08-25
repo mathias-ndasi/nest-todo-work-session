@@ -8,12 +8,14 @@ import {
   Put,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO, GetUsersParams, UpdateUserDTO } from './dtos/user.dto';
 import { Response } from 'express';
 import { Roles } from 'src/common/roles/roles.decorator';
 import { UserType } from 'src/common/enums/constants.enum';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -28,6 +30,7 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   @Roles(UserType.admin)
   async getUsers(@Query() queryParams: GetUsersParams, @Res() res: Response) {
     const { status, ...responseData } = await this.userService.findUsers(

@@ -4,7 +4,8 @@ export class ResponseWithoutData {
     data?: any
 }
 
-export class ResponseWithData extends ResponseWithoutData {}
+export class ResponseWithData extends ResponseWithoutData {
+}
 
 export class Response {
     static withData(status: number, message: string, data: any): ResponseWithData {

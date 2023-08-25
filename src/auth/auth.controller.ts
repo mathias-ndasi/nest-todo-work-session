@@ -1,16 +1,30 @@
-import { Body, Controller, HttpCode, HttpStatus, Param, Post, Res } from "@nestjs/common";
-import { AuthService } from "./auth.service";
-import { SaveUserParams } from "src/repositories/entities/user.entity";
-
-
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from './auth.guard';
+import { AuthService } from './auth.service';
+import { AuthUserParams } from './dto/auth.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Param('username') params: SaveUserParams) {
-    return this.authService.signIn(params);
+  signIn(@Body() requestBody: AuthUserParams) {
+    return this.authService.signIn(requestBody);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }

@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { env } from 'process';
 import { jwtConstants } from './constant';
 
 @Injectable()

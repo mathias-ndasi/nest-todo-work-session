@@ -22,6 +22,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @Roles(UserType.admin)
   async createUser(@Body() requestBody: CreateUserDTO, @Res() res: Response) {
     const { status, ...responseData } = await this.userService.createUser(
       requestBody,
@@ -40,7 +41,7 @@ export class UserController {
   }
 
   @Get(':userId')
-  @Roles(UserType.admin, UserType.client)
+  @Roles(UserType.client)
   async getUser(@Param('userId') userId: number, @Res() res: Response) {
     const { status, ...responseData } = await this.userService.findUser(
       Number(userId),

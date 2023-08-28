@@ -234,18 +234,22 @@ export class UserValidator {
     return new Promise(async (resolve, reject) => {
       try {
         //joi Validation
+        
         const joiSchema = Joi.object({
             userId: Joi.number().positive().integer().min(1).label('The user ID'),
-          });
+        });
+  
           const validationResults = await JoiValidator.validate({
             joiSchema: joiSchema,
             data: { userId },
           });
+
         if (validationResults) return resolve(validationResults);
 
         const userData= await this.userRepository.retrieveUser({
             id: Number(userId)
         });
+    
         if (!userData) {
           return resolve(
             Response.withoutData(HttpStatus.NOT_FOUND, 'User not Found'),

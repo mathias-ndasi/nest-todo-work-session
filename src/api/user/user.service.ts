@@ -7,13 +7,7 @@ import { UserValidator } from './user.validator';
 import { UserRepository } from 'src/repositories/user.repository';
 import { UserType } from '@prisma/client';
 import { UserHelper } from 'src/common/helpers/user.helper';
-import { UpdateUserParams, UserFilterParams, UserFilterParamsWithLimits } from 'src/repositories/entities/user.entity';
-import { number, string } from 'joi';
 import { User } from './entities/user.entity';
-import { identity } from 'rxjs';
-import { constants } from 'buffer';
-import { response } from 'express';
-
 @Injectable()
 export class UserService {
     constructor(
@@ -68,7 +62,7 @@ export class UserService {
         
     }
 
-    async findUser(userId: number): Promise<ResponseWithData> {
+    async findUser(userId: number): Promise<any> {
         try {
             const validationResult = await this.userValidator.validateGetUserParams(userId);
             if (validationResult.status !== HttpStatus.OK) return validationResult;
@@ -106,18 +100,20 @@ export class UserService {
         }
     }
 
-        async deleteUser(userId: number): Promise<ResponseWithoutData>{
-            try {
-                const deleteUser = await this.userValidator.validateDeleteUserParams(userId);
-                if(deleteUser.status!== HttpStatus.OK) return deleteUser;
+    async deleteUser(userId: number): Promise<ResponseWithoutData>{
+        try {
+            const deleteUser = await this.userValidator.validateDeleteUserParams(userId);
+            if(deleteUser.status!== HttpStatus.OK) return deleteUser;
 
                 let user = deleteUser.data.user;
-                user = await this.userRepository.deleteUser(userId)
+                user = await this.userRepository.deleteUser(userId);
 
                 return Response.withoutData(HttpStatus.NO_CONTENT, 'User deleted successfully')
+                
             } catch (error) {
                 logger.error(`An error occured while deleting the user ${error}`);
-                return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
-        }
+            return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
+            
         }
     }
+}

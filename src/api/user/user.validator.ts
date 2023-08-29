@@ -17,6 +17,7 @@ export class UserValidator {
   ): Promise<ResponseWithoutData> {
     return new Promise(async (resolve, reject) => {
       try {
+        
         // Joi validation
         const joiSchema: Joi.ObjectSchema<CreateUserDTO> = Joi.object({
           email: Joi.string()
@@ -35,6 +36,7 @@ export class UserValidator {
           lastName: Joi.string().trim().required().label('The last name'),
           address: Joi.string().trim().required().label('The user address'),
         });
+    
         const validationResults = await JoiValidator.validate({
           joiSchema: joiSchema,
           data: dto,
@@ -51,6 +53,7 @@ export class UserValidator {
         let existingUser = await this.userRepository.retrieveUser({
           username: dto.username,
         });
+  
         if (existingUser) {
           return resolve(
             Response.withoutData(
@@ -63,6 +66,8 @@ export class UserValidator {
         existingUser = await this.userRepository.retrieveUser({
           email: dto.email,
         });
+
+    
         if (existingUser) {
           return resolve(
             Response.withoutData(
@@ -229,18 +234,22 @@ export class UserValidator {
     return new Promise(async (resolve, reject) => {
       try {
         //joi Validation
+        
         const joiSchema = Joi.object({
             userId: Joi.number().positive().integer().min(1).label('The user ID'),
-          });
+        });
+  
           const validationResults = await JoiValidator.validate({
             joiSchema: joiSchema,
             data: { userId },
           });
+
         if (validationResults) return resolve(validationResults);
 
         const userData= await this.userRepository.retrieveUser({
             id: Number(userId)
         });
+    
         if (!userData) {
           return resolve(
             Response.withoutData(HttpStatus.NOT_FOUND, 'User not Found'),

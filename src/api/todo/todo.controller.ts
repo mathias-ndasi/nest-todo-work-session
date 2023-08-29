@@ -13,15 +13,12 @@ import {
 import { Response, query, response } from 'express';
 import { TodoService } from './todo.service';
 import { CreateTodoDto, GetTodoParams, UpdateTodoDto } from './dtos/todo.dto';
-import { Roles } from '../../common/roles/roles.decorator';
-import { UserType } from 'src/common/enums/constants.enum';
 
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
-  @Roles(UserType.client)
   async createTodo(@Body() requestBody: CreateTodoDto, @Res() res: Response) {
     const { status, ...responseData } = await this.todoService.createTodo(
       requestBody,
@@ -30,7 +27,6 @@ export class TodoController {
   }
 
   @Get()
-  @Roles(UserType.admin)
   async getTodos(@Query() queryParams: GetTodoParams, @Res() res: Response) {
     const { status, ...responseData } = await this.todoService.findTodos(
       queryParams,
@@ -39,7 +35,6 @@ export class TodoController {
   }
 
   @Get(':todoId')
-  @Roles(UserType.client, UserType.admin)
   async getTodo(@Param('todoId') todoId: number, @Res() res: Response) {
     const { status, ...responseData } = await this.todoService.findTodo(
       Number(todoId),
@@ -48,7 +43,6 @@ export class TodoController {
   }
 
   @Put(':todoId')
-  @Roles(UserType.client)
   async updateTodo(
     @Param('todoId') todoId: number,
     @Body() requestBody: UpdateTodoDto,
@@ -62,7 +56,6 @@ export class TodoController {
   }
 
   @Delete(':todoId')
-  @Roles(UserType.client)
   async deleteTodo(@Param('todoId') todoId: number, @Res() res: Response) {
     const { status, ...responseData } = await this.todoService.deleteTodo(
       Number(todoId),
